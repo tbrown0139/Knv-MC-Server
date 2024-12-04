@@ -11,7 +11,6 @@
             margin: 0;
             padding: 0;
             background: #f4f4f4;
-            color: #333;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -19,48 +18,24 @@
 
         /* Navbar */
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             background: #007aff;
             color: white;
             padding: 15px 20px;
+            text-align: center;
             font-size: 18px;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: fixed;
             top: 0;
             width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-        }
-
-        .navbar-title {
-            font-size: 18px;
-        }
-
-        .navbar-button {
-            background: white;
-            color: #007aff;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        .navbar-button:hover {
-            background: #005bb5;
-            color: white;
         }
 
         /* Content */
         .content {
-            margin-top: 70px;
-            padding: 20px;
             flex: 1;
             overflow-y: auto;
+            margin-top: 60px;
+            padding: 15px;
         }
 
         /* Image Background Card */
@@ -73,7 +48,6 @@
             background-image: url('https://source.unsplash.com/800x600/?minecraft');
             background-size: cover;
             background-position: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .image-card::after {
@@ -92,7 +66,7 @@
             left: 20px;
             color: white;
             font-size: 24px;
-            font-weight: bold;
+            z-index: 1;
         }
 
         /* Card Styles */
@@ -100,25 +74,18 @@
             background: #fff;
             border-radius: 15px;
             padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            margin: 0 0 15px;
-            font-size: 20px;
-            color: #333;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         /* Status Card */
         .status-card {
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            color: white;
             padding: 20px;
             border-radius: 15px;
-            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
             transition: background 0.3s ease;
         }
 
@@ -130,14 +97,14 @@
             background: #dc3545;
         }
 
-        /* Lists */
-        .server-address, .players-list, .announcements-list {
+        /* Server Address & Player List */
+        .server-address, .players-list {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
-        .server-card, .player-card, .announcement-card {
+        .server-card, .player-card, .announcement-card, .staff-card {
             display: flex;
             align-items: center;
             padding: 15px;
@@ -145,19 +112,19 @@
             border-radius: 10px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .server-card:hover, .player-card:hover, .announcement-card:hover {
-            transform: scale(1.03);
+        .server-card:hover, .player-card:hover, .announcement-card:hover, .staff-card:hover {
+            transform: scale(1.02);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .server-icon, .player-icon {
+        .staff-card-icon {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(to bottom, #ff6f61, #ff3e3e);
+            background: linear-gradient(to bottom, #007aff, #005bb5);
             color: white;
             display: flex;
             justify-content: center;
@@ -167,39 +134,35 @@
             margin-right: 15px;
         }
 
-        .server-info, .player-info, .announcement-info {
+        .staff-info {
             display: flex;
             flex-direction: column;
         }
 
-        .server-type, .player-name, .announcement-title {
+        .staff-title {
             font-size: 16px;
             font-weight: bold;
             color: #333;
         }
 
-        .server-address, .player-platform, .announcement-description {
+        .staff-description {
             font-size: 14px;
             color: #666;
         }
 
         /* Footer */
         .footer {
+            background: #f4f4f4;
+            padding: 10px;
             text-align: center;
             font-size: 14px;
             color: #666;
-            margin-top: 20px;
-            padding: 10px 0;
+            border-top: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="navbar-title">Knovon Minecraft Server</div>
-        <a href="https://mod.mc.knovon.org" class="navbar-button" target="_blank">Staff Panel</a>
-    </div>
-
+    <div class="navbar">Knovon Minecraft Server</div>
     <div class="content">
         <!-- Image Background Card -->
         <div class="image-card">
@@ -211,7 +174,7 @@
             Server is Offline
         </div>
 
-        <!-- World Stats -->
+        <!-- World Stats Card -->
         <div class="card">
             <h2>World Stats</h2>
             <p><strong>In-Game Time:</strong> <span id="world-time">Loading...</span></p>
@@ -250,22 +213,33 @@
             <h2>Announcements</h2>
             <div id="announcements-list" class="announcements-list"></div>
         </div>
-    </div>
 
+        <!-- Staff Panel -->
+        <div class="card">
+            <h2>Staff Panel</h2>
+            <a href="https://mod.mc.knovon.org" target="_blank" class="staff-card">
+                <div class="staff-card-icon">SP</div>
+                <div class="staff-info">
+                    <div class="staff-title">Access Staff Panel</div>
+                    <div class="staff-description">Manage server settings and moderate gameplay.</div>
+                </div>
+            </a>
+        </div>
+    </div>
     <div class="footer">Powered by Knovon</div>
 
     <script>
         async function fetchServerStatus() {
-            // Add server fetching logic here
+            // Server status fetching logic here
         }
 
         async function fetchAnnouncements() {
-            // Add announcement fetching logic here
+            // Announcement fetching logic here
         }
 
         function copyAddress(address) {
             navigator.clipboard.writeText(address).then(() => {
-                alert(`Address ${address} copied!`);
+                alert(`Address ${address} copied to clipboard!`);
             });
         }
 
