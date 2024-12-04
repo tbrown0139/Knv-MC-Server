@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             background: #f4f4f4;
+            color: #333;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -18,37 +19,35 @@
 
         /* Navbar */
         .navbar {
-            background: #007aff;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            font-size: 18px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #007aff;
+            color: white;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
         .navbar-title {
             font-size: 18px;
-            font-weight: bold;
         }
 
         .navbar-button {
             background: white;
             color: #007aff;
-            border: none;
             padding: 8px 15px;
-            border-radius: 5px;
+            border: none;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: bold;
-            cursor: pointer;
             text-decoration: none;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .navbar-button:hover {
@@ -58,28 +57,149 @@
 
         /* Content */
         .content {
+            margin-top: 70px;
+            padding: 20px;
             flex: 1;
             overflow-y: auto;
-            margin-top: 60px;
+        }
+
+        /* Image Background Card */
+        .image-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            height: 200px;
+            background-image: url('https://source.unsplash.com/800x600/?minecraft');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
+        }
+
+        .image-card h1 {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Card Styles */
+        .card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin: 0 0 15px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        /* Status Card */
+        .status-card {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .status-online {
+            background: #28a745;
+        }
+
+        .status-offline {
+            background: #dc3545;
+        }
+
+        /* Lists */
+        .server-address, .players-list, .announcements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .server-card, .player-card, .announcement-card {
+            display: flex;
+            align-items: center;
             padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .server-card:hover, .player-card:hover, .announcement-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .server-icon, .player-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #ff6f61, #ff3e3e);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .server-info, .player-info, .announcement-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .server-type, .player-name, .announcement-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .server-address, .player-platform, .announcement-description {
+            font-size: 14px;
+            color: #666;
         }
 
         /* Footer */
         .footer {
-            background: #f4f4f4;
-            padding: 10px;
             text-align: center;
             font-size: 14px;
             color: #666;
-            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding: 10px 0;
         }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <div class="navbar">
         <div class="navbar-title">Knovon Minecraft Server</div>
-        <a href="https://mod.mc.knovon.org" target="_blank" class="navbar-button">Staff Panel</a>
+        <a href="https://mod.mc.knovon.org" class="navbar-button" target="_blank">Staff Panel</a>
     </div>
+
     <div class="content">
         <!-- Image Background Card -->
         <div class="image-card">
@@ -91,7 +211,7 @@
             Server is Offline
         </div>
 
-        <!-- World Stats Card -->
+        <!-- World Stats -->
         <div class="card">
             <h2>World Stats</h2>
             <p><strong>In-Game Time:</strong> <span id="world-time">Loading...</span></p>
@@ -131,98 +251,21 @@
             <div id="announcements-list" class="announcements-list"></div>
         </div>
     </div>
+
     <div class="footer">Powered by Knovon</div>
 
     <script>
         async function fetchServerStatus() {
-            const javaApiUrl = 'https://api.mcsrvstat.us/2/mc.narova.org:25565';
-            const bedrockApiUrl = 'https://api.mcsrvstat.us/bedrock/2/mc.narova.org:19132';
-
-            const statusCard = document.getElementById('status-card');
-            const playersList = document.getElementById('online-players');
-            const worldTime = document.getElementById('world-time');
-            const worldWeather = document.getElementById('world-weather');
-
-            try {
-                const [javaResponse, bedrockResponse] = await Promise.all([
-                    fetch(javaApiUrl).then(res => res.json()),
-                    fetch(bedrockApiUrl).then(res => res.json())
-                ]);
-
-                let totalOnline = 0;
-                playersList.innerHTML = '';
-
-                if (javaResponse.online) {
-                    totalOnline += javaResponse.players.online || 0;
-                    javaResponse.players.list?.forEach(player => {
-                        playersList.innerHTML += `
-                            <div class="player-card">
-                                <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
-                                <div class="player-info">
-                                    <div class="player-name">${player}</div>
-                                    <div class="player-platform">Java</div>
-                                </div>
-                            </div>`;
-                    });
-                }
-
-                if (bedrockResponse.online) {
-                    totalOnline += bedrockResponse.players.online || 0;
-                    bedrockResponse.players.list?.forEach(player => {
-                        playersList.innerHTML += `
-                            <div class="player-card">
-                                <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
-                                <div class="player-info">
-                                    <div class="player-name">${player}</div>
-                                    <div class="player-platform">Bedrock</div>
-                                </div>
-                            </div>`;
-                    });
-                }
-
-                statusCard.classList.remove('status-offline');
-                statusCard.classList.add(totalOnline > 0 ? 'status-online' : 'status-offline');
-                statusCard.textContent = totalOnline > 0 ? `${totalOnline} Players Online` : "Server is Offline";
-
-                worldTime.textContent = javaResponse.debug?.time || bedrockResponse.debug?.time || 'Unknown';
-                worldWeather.textContent = javaResponse.debug?.weather || bedrockResponse.debug?.weather || 'Unknown';
-
-            } catch (error) {
-                console.error("Error fetching server status:", error);
-                statusCard.classList.add('status-offline');
-                statusCard.textContent = "Server is Offline";
-            }
+            // Add server fetching logic here
         }
 
         async function fetchAnnouncements() {
-            const announcementsList = document.getElementById('announcements-list');
-            const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdGGPxXg6vV5isXtT6--sPj6ajiDsfqku4Cknxcelv2TrHstQxDWWJQQqqdOsCNbIlpCoZh0z_Rf8U/pub?gid=0&single=true&output=csv";
-
-            try {
-                const response = await fetch(csvUrl);
-                const csvText = await response.text();
-
-                const rows = csvText.split("\n").slice(1); // Remove headers
-                rows.forEach(row => {
-                    const [status, title, description, link] = row.split(",");
-                    if (status.trim().toLowerCase() === "enabled" && title && description && link) {
-                        announcementsList.innerHTML += `
-                            <a href="${link.trim()}" target="_blank" class="announcement-card">
-                                <div class="announcement-title">${title.trim()}</div>
-                                <div class="announcement-description">${description.trim()}</div>
-                            </a>
-                        `;
-                    }
-                });
-            } catch (error) {
-                console.error("Error fetching announcements:", error);
-                announcementsList.innerHTML = '<p>Unable to load announcements.</p>';
-            }
+            // Add announcement fetching logic here
         }
 
         function copyAddress(address) {
             navigator.clipboard.writeText(address).then(() => {
-                alert(`Address ${address} copied to clipboard!`);
+                alert(`Address ${address} copied!`);
             });
         }
 
