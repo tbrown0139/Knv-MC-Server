@@ -28,6 +28,32 @@
             width: 100%;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .navbar-button {
+            background: white;
+            color: #007aff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar-button:hover {
+            background: #005bb5;
+            color: white;
         }
 
         /* Content */
@@ -36,118 +62,6 @@
             overflow-y: auto;
             margin-top: 60px;
             padding: 15px;
-        }
-
-        /* Image Background Card */
-        .image-card {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            height: 200px;
-            background-image: url('https://source.unsplash.com/800x600/?minecraft');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .image-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
-        }
-
-        .image-card h1 {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
-            font-size: 24px;
-            z-index: 1;
-        }
-
-        /* Card Styles */
-        .card {
-            background: #fff;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Status Card */
-        .status-card {
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 15px;
-            transition: background 0.3s ease;
-        }
-
-        .status-online {
-            background: #28a745;
-        }
-
-        .status-offline {
-            background: #dc3545;
-        }
-
-        /* Server Address & Player List */
-        .server-address, .players-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .server-card, .player-card, .announcement-card {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .server-card:hover, .player-card:hover, .announcement-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .server-icon, .player-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #ff6f61, #ff3e3e);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-
-        .server-info, .player-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .server-type, .player-name, .announcement-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .server-address, .player-platform, .announcement-description {
-            font-size: 14px;
-            color: #666;
         }
 
         /* Footer */
@@ -162,7 +76,10 @@
     </style>
 </head>
 <body>
-    <div class="navbar">Knovon Minecraft Server</div>
+    <div class="navbar">
+        <div class="navbar-title">Knovon Minecraft Server</div>
+        <a href="https://mod.mc.knovon.org" target="_blank" class="navbar-button">Staff Panel</a>
+    </div>
     <div class="content">
         <!-- Image Background Card -->
         <div class="image-card">
