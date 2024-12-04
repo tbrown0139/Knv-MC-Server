@@ -98,6 +98,12 @@
             background: #dc3545;
         }
 
+        /* World Stats */
+        .world-stats {
+            font-size: 14px;
+            color: #666;
+        }
+
         /* Server Address & Player List Cards */
         .server-address, .players-list {
             display: flex;
@@ -175,6 +181,15 @@
             Server is Offline
         </div>
 
+        <!-- World Stats Card -->
+        <div class="card">
+            <h2>World Stats</h2>
+            <div class="world-stats">
+                <p><strong>In-Game Time:</strong> <span id="world-time">Loading...</span></p>
+                <p><strong>Weather:</strong> <span id="world-weather">Loading...</span></p>
+            </div>
+        </div>
+
         <!-- Server Address Cards -->
         <div class="card">
             <h2>Server Addresses</h2>
@@ -212,11 +227,13 @@
             const data = await response.json();
             const statusCard = document.getElementById('status-card');
             const playersList = document.getElementById('online-players');
+            const worldTime = document.getElementById('world-time');
+            const worldWeather = document.getElementById('world-weather');
 
             if (data.online) {
                 statusCard.classList.remove('status-offline');
                 statusCard.classList.add('status-online');
-                statusCard.textContent = "Server is Online";
+                statusCard.textContent = `${data.players.online}/${data.players.max} Players Online`;
 
                 playersList.innerHTML = data.players.list
                     ? data.players.list.map(player => `
@@ -228,12 +245,18 @@
                         </div>
                     `).join('')
                     : '<p>No players online.</p>';
+
+                // World stats (replace placeholders with real API data if available)
+                worldTime.textContent = data.debug ? data.debug.time : 'Unknown';
+                worldWeather.textContent = data.debug ? data.debug.weather : 'Unknown';
             } else {
                 statusCard.classList.remove('status-online');
                 statusCard.classList.add('status-offline');
                 statusCard.textContent = "Server is Offline";
 
                 playersList.innerHTML = '<p>Server is offline.</p>';
+                worldTime.textContent = 'N/A';
+                worldWeather.textContent = 'N/A';
             }
         }
 
