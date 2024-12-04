@@ -38,6 +38,37 @@
             padding: 15px;
         }
 
+        /* Image Background Card */
+        .image-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            height: 200px;
+            background-image: url('https://source.unsplash.com/800x600/?minecraft');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .image-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
+        }
+
+        .image-card h1 {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            z-index: 1;
+        }
+
         /* Card Styles */
         .card {
             background: #fff;
@@ -47,11 +78,35 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Announcement Cards */
-        .announcement-card {
+        /* Status Card */
+        .status-card {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+            transition: background 0.3s ease;
+        }
+
+        .status-online {
+            background: #28a745;
+        }
+
+        .status-offline {
+            background: #dc3545;
+        }
+
+        /* Server Address & Player List */
+        .server-address, .players-list {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 15px;
+        }
+
+        .server-card, .player-card, .announcement-card {
+            display: flex;
+            align-items: center;
             padding: 15px;
             background: #fff;
             border-radius: 10px;
@@ -60,18 +115,37 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .announcement-card:hover {
+        .server-card:hover, .player-card:hover, .announcement-card:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .announcement-title {
+        .server-icon, .player-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #ff6f61, #ff3e3e);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .server-info, .player-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .server-type, .player-name, .announcement-title {
             font-size: 16px;
             font-weight: bold;
             color: #333;
         }
 
-        .announcement-description {
+        .server-address, .player-platform, .announcement-description {
             font-size: 14px;
             color: #666;
         }
@@ -100,24 +174,110 @@
             Server is Offline
         </div>
 
-        <!-- Announcements Section -->
+        <!-- World Stats Card -->
         <div class="card">
-            <h2>Announcements</h2>
-            <div id="announcements-list" class="announcements-list">
-                <!-- Announcement cards dynamically added here -->
+            <h2>World Stats</h2>
+            <p><strong>In-Game Time:</strong> <span id="world-time">Loading...</span></p>
+            <p><strong>Weather:</strong> <span id="world-weather">Loading...</span></p>
+        </div>
+
+        <!-- Server Addresses -->
+        <div class="card">
+            <h2>Server Addresses</h2>
+            <div class="server-address">
+                <div class="server-card" onclick="copyAddress('mc.narova.org:25565')">
+                    <div class="server-icon">JA</div>
+                    <div class="server-info">
+                        <div class="server-type">Java</div>
+                        <div class="server-address">mc.narova.org:25565</div>
+                    </div>
+                </div>
+                <div class="server-card" onclick="copyAddress('mc.narova.org:19132')">
+                    <div class="server-icon">BR</div>
+                    <div class="server-info">
+                        <div class="server-type">Bedrock</div>
+                        <div class="server-address">mc.narova.org:19132</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Other Sections -->
-        <!-- Existing sections like world stats, player lists, and server addresses remain intact -->
+        <!-- Online Players -->
+        <div class="card">
+            <h2>Online Players</h2>
+            <div id="online-players" class="players-list"></div>
+        </div>
 
+        <!-- Announcements -->
+        <div class="card">
+            <h2>Announcements</h2>
+            <div id="announcements-list" class="announcements-list"></div>
+        </div>
     </div>
     <div class="footer">Powered by Knovon</div>
 
     <script>
+        async function fetchServerStatus() {
+            const javaApiUrl = 'https://api.mcsrvstat.us/2/mc.narova.org:25565';
+            const bedrockApiUrl = 'https://api.mcsrvstat.us/bedrock/2/mc.narova.org:19132';
+
+            const statusCard = document.getElementById('status-card');
+            const playersList = document.getElementById('online-players');
+            const worldTime = document.getElementById('world-time');
+            const worldWeather = document.getElementById('world-weather');
+
+            try {
+                const [javaResponse, bedrockResponse] = await Promise.all([
+                    fetch(javaApiUrl).then(res => res.json()),
+                    fetch(bedrockApiUrl).then(res => res.json())
+                ]);
+
+                let totalOnline = 0;
+                playersList.innerHTML = '';
+
+                if (javaResponse.online) {
+                    totalOnline += javaResponse.players.online || 0;
+                    javaResponse.players.list?.forEach(player => {
+                        playersList.innerHTML += `
+                            <div class="player-card">
+                                <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
+                                <div class="player-info">
+                                    <div class="player-name">${player}</div>
+                                    <div class="player-platform">Java</div>
+                                </div>
+                            </div>`;
+                    });
+                }
+
+                if (bedrockResponse.online) {
+                    totalOnline += bedrockResponse.players.online || 0;
+                    bedrockResponse.players.list?.forEach(player => {
+                        playersList.innerHTML += `
+                            <div class="player-card">
+                                <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
+                                <div class="player-info">
+                                    <div class="player-name">${player}</div>
+                                    <div class="player-platform">Bedrock</div>
+                                </div>
+                            </div>`;
+                    });
+                }
+
+                statusCard.classList.remove('status-offline');
+                statusCard.classList.add(totalOnline > 0 ? 'status-online' : 'status-offline');
+                statusCard.textContent = totalOnline > 0 ? `${totalOnline} Players Online` : "Server is Offline";
+
+                worldTime.textContent = javaResponse.debug?.time || bedrockResponse.debug?.time || 'Unknown';
+                worldWeather.textContent = javaResponse.debug?.weather || bedrockResponse.debug?.weather || 'Unknown';
+            } catch (error) {
+                console.error(error);
+                statusCard.textContent = "Server is Offline";
+            }
+        }
+
         async function fetchAnnouncements() {
-            const announcementsList = document.getElementById('announcements-list');
             const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdGGPxXg6vV5isXtT6--sPj6ajiDsfqku4Cknxcelv2TrHstQxDWWJQQqqdOsCNbIlpCoZh0z_Rf8U/pub?gid=0&single=true&output=csv";
+            const announcementsList = document.getElementById('announcements-list');
 
             try {
                 const response = await fetch(csvUrl);
@@ -131,8 +291,7 @@
                             <a href="${link.trim()}" target="_blank" class="announcement-card">
                                 <div class="announcement-title">${title.trim()}</div>
                                 <div class="announcement-description">${description.trim()}</div>
-                            </a>
-                        `;
+                            </a>`;
                     }
                 });
             } catch (error) {
@@ -141,6 +300,13 @@
             }
         }
 
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address).then(() => {
+                alert(`Address ${address} copied!`);
+            });
+        }
+
+        fetchServerStatus();
         fetchAnnouncements();
     </script>
 </body>
