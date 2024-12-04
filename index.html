@@ -6,6 +6,7 @@
     <title>Knovon Minecraft Server</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Base Styles */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
@@ -13,81 +14,162 @@
             background: #f4f4f4;
             color: #333;
         }
+
+        /* Header Styles */
         header {
-            background: #333;
+            background: #007aff;
             color: #fff;
             padding: 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
         }
+
         header .logo {
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
+
         header .logo img {
             width: 50px;
-            margin-right: 10px;
+            margin-bottom: 5px;
         }
+
+        header .logo div {
+            font-size: 18px;
+        }
+
         header .server-address {
             text-align: right;
             flex: 1;
+            padding: 10px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         header .server-address span {
             display: block;
             margin-bottom: 10px;
-        }
-        header .server-address button {
-            padding: 8px 15px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background: #007aff;
-            color: #fff;
             font-size: 14px;
         }
+
+        header .server-address button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 10px;
+            background: #fff;
+            color: #007aff;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
         header .status {
             display: flex;
             align-items: center;
             margin-top: 10px;
         }
+
         header .status .flare {
             width: 10px;
             height: 10px;
             border-radius: 50%;
             margin-right: 5px;
         }
+
         header .status .online {
             background: green;
         }
+
         header .status .offline {
             background: red;
         }
+
+        /* Card Layout */
         .section {
             padding: 20px;
             background: #fff;
             margin: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
+        .card {
+            background: #f5f5f7;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Player List */
         .players-list {
+            margin-top: 20px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            flex-direction: column;
+            gap: 15px;
         }
+
         .player-card {
+            display: flex;
+            align-items: center;
             padding: 10px;
-            background: #007aff;
-            color: #fff;
-            border-radius: 5px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        .player-card .profile-photo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(to bottom, #e0e0e0, #f5f5f5);
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .player-card .player-name {
+            font-size: 16px;
+        }
+
         footer {
             text-align: center;
             padding: 20px;
-            background: #333;
+            background: #007aff;
             color: #fff;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        /* Mobile Responsiveness */
+        @media screen and (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .server-address {
+                width: 100%;
+                margin-top: 15px;
+            }
+
+            .card {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -110,9 +192,11 @@
     </header>
 
     <section class="section">
-        <h2>Server Status</h2>
-        <p id="player-count">Loading player count...</p>
-        <div id="online-players" class="players-list"></div>
+        <div class="card">
+            <h2>Server Status</h2>
+            <p id="player-count">Loading player count...</p>
+            <div id="online-players" class="players-list"></div>
+        </div>
     </section>
 
     <footer>
@@ -133,8 +217,13 @@
                 serverFlare.classList.add('online');
                 serverStatus.textContent = 'Online';
                 playerCount.textContent = `Players Online: ${data.players.online} / ${data.players.max}`;
-                playersList.innerHTML = data.players.list 
-                    ? data.players.list.map(player => `<div class="player-card">${player}</div>`).join('') 
+                playersList.innerHTML = data.players.list
+                    ? data.players.list.map(player => `
+                        <div class="player-card">
+                            <div class="profile-photo">${player.substring(0, 2).toUpperCase()}</div>
+                            <div class="player-name">${player}</div>
+                        </div>
+                    `).join('')
                     : '<p>No players online.</p>';
             } else {
                 serverFlare.classList.remove('online');
