@@ -13,46 +13,159 @@
             background: #f4f4f4;
             display: flex;
             flex-direction: column;
-            height: 100vh;
         }
 
-        /* Navbar */
-        .navbar {
-            background: #007aff;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            font-size: 18px;
-            position: fixed;
+        /* Header Card */
+        .header-card {
+            position: relative;
+            height: 200px;
+            background-image: url('https://source.unsplash.com/800x600/?minecraft');
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header-card::after {
+            content: "";
+            position: absolute;
             top: 0;
+            left: 0;
             width: 100%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
         }
 
-        /* Content */
-        .content {
-            flex: 1;
-            overflow-y: auto;
-            margin-top: 60px;
+        .header-text {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Status Banner */
+        .status-banner {
+            background: #fff;
+            color: #333;
             padding: 15px;
+            margin: 0 15px 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
         }
 
-        /* Card Styles */
-        .card {
+        .status-online {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-offline {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Server Section */
+        .server-section {
+            margin: 15px;
+        }
+
+        .server-card {
+            display: flex;
+            align-items: center;
             background: #fff;
             border-radius: 15px;
-            padding: 20px;
+            padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+        .server-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .server-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #ff6f61, #ff3e3e);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .server-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Player Section */
+        .player-card {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .player-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .player-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #007aff, #005bb5);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .player-platform {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Staff Card */
         .staff-card {
             display: flex;
             align-items: center;
-            padding: 15px;
             background: #fff;
-            border-radius: 10px;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -63,11 +176,11 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .staff-card-icon {
+        .staff-icon {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(to bottom, #007aff, #005bb5);
+            background: linear-gradient(to bottom, #ffcc00, #ff9900);
             color: white;
             display: flex;
             justify-content: center;
@@ -85,120 +198,110 @@
         .staff-title {
             font-size: 16px;
             font-weight: bold;
-            color: #333;
         }
 
         .staff-description {
             font-size: 14px;
             color: #666;
         }
-
-        /* Status Card */
-        .status-card {
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 15px;
-            transition: background 0.3s ease;
-        }
-
-        .status-online {
-            background: #28a745;
-        }
-
-        .status-offline {
-            background: #dc3545;
-        }
-
-        /* Footer */
-        .footer {
-            background: #f4f4f4;
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-            border-top: 1px solid #ddd;
-        }
     </style>
 </head>
 <body>
-    <div class="navbar">Knovon Minecraft Server</div>
-    <div class="content">
-        <!-- Image Background Card -->
-        <div class="image-card">
-            <h1>Knovon Minecraft Server</h1>
-        </div>
+    <div class="header-card">
+        <div class="header-text">Welcome to the Knovon MC Server</div>
+    </div>
 
-        <!-- Server Status -->
-        <div class="card">
-            <h2>Java Server Status</h2>
-            <div id="java-status" class="server-status">
-                <strong>Status:</strong> <span id="java-online-status">Loading...</span><br>
-                <strong>Players:</strong> <span id="java-player-count">0/0</span>
-                <ul id="java-players" class="player-list"></ul>
+    <div id="status-banner" class="status-banner">Checking server status...</div>
+
+    <!-- Server Section -->
+    <div class="server-section">
+        <div class="server-card" onclick="copyAddress('mc.narova.org:25565')">
+            <div class="server-icon">JA</div>
+            <div class="server-info">
+                <div>Java Server</div>
+                <div>mc.narova.org:25565</div>
             </div>
         </div>
-
-        <div class="card">
-            <h2>Bedrock Server Status</h2>
-            <div id="bedrock-status" class="server-status">
-                <strong>Status:</strong> <span id="bedrock-online-status">Loading...</span><br>
-                <strong>Players:</strong> <span id="bedrock-player-count">0/0</span>
-                <ul id="bedrock-players" class="player-list"></ul>
+        <div class="server-card" onclick="copyAddress('mc.narova.org:19132')">
+            <div class="server-icon">BR</div>
+            <div class="server-info">
+                <div>Bedrock Server</div>
+                <div>mc.narova.org:19132</div>
             </div>
-        </div>
-
-        <!-- Staff Panel Card -->
-        <div class="card">
-            <h2>Staff Panel</h2>
-            <a href="https://mod.mc.knovon.org" target="_blank" class="staff-card">
-                <div class="staff-card-icon">SP</div>
-                <div class="staff-info">
-                    <div class="staff-title">Access Staff Panel</div>
-                    <div class="staff-description">Manage server settings and moderate gameplay.</div>
-                </div>
-            </a>
         </div>
     </div>
-    <div class="footer">Powered by Knovon</div>
+
+    <!-- Player Section -->
+    <div class="server-section">
+        <h2>Online Players</h2>
+        <div id="player-list">
+            <div>No players online.</div>
+        </div>
+    </div>
+
+    <!-- Staff Portal -->
+    <div class="staff-card" onclick="window.open('https://mod.mc.knovon.org', '_blank')">
+        <div class="staff-icon">SP</div>
+        <div class="staff-info">
+            <div class="staff-title">Server Staff Portal</div>
+            <div class="staff-description">Access tools for server management.</div>
+        </div>
+    </div>
 
     <script>
         async function fetchServerStatus() {
-            const javaApiUrl = 'https://api.mcsrvstat.us/2/mc.narova.org:25565';
-            const bedrockApiUrl = 'https://api.mcsrvstat.us/bedrock/2/mc.narova.org:19132';
+            const javaApi = 'https://api.mcsrvstat.us/2/mc.narova.org:25565';
+            const bedrockApi = 'https://api.mcsrvstat.us/bedrock/2/mc.narova.org:19132';
 
             try {
-                const [javaResponse, bedrockResponse] = await Promise.all([
-                    fetch(javaApiUrl).then(res => res.json()),
-                    fetch(bedrockApiUrl).then(res => res.json())
+                const [javaRes, bedrockRes] = await Promise.all([
+                    fetch(javaApi).then(res => res.json()),
+                    fetch(bedrockApi).then(res => res.json())
                 ]);
 
-                // Java Server
-                if (javaResponse.online) {
-                    document.getElementById('java-online-status').textContent = "Online";
-                    document.getElementById('java-player-count').textContent = `${javaResponse.players.online}/${javaResponse.players.max}`;
-                    document.getElementById('java-players').innerHTML = javaResponse.players.list
-                        ? javaResponse.players.list.map(player => `<li>${player}</li>`).join('')
-                        : '<li>No players online</li>';
-                } else {
-                    document.getElementById('java-online-status').textContent = "Offline";
-                }
+                // Update status
+                const isOnline = javaRes.online || bedrockRes.online;
+                document.getElementById('status-banner').className = `status-banner ${isOnline ? 'status-online' : 'status-offline'}`;
+                document.getElementById('status-banner').innerText = isOnline
+                    ? `Online - ${javaRes.players.online + bedrockRes.players.online} Players`
+                    : 'Offline';
 
-                // Bedrock Server
-                if (bedrockResponse.online) {
-                    document.getElementById('bedrock-online-status').textContent = "Online";
-                    document.getElementById('bedrock-player-count').textContent = `${bedrockResponse.players.online}/${bedrockResponse.players.max}`;
-                    document.getElementById('bedrock-players').innerHTML = bedrockResponse.players.list
-                        ? bedrockResponse.players.list.map(player => `<li>${player}</li>`).join('')
-                        : '<li>No players online</li>';
-                } else {
-                    document.getElementById('bedrock-online-status').textContent = "Offline";
+                // Update player list
+                const playerList = document.getElementById('player-list');
+                playerList.innerHTML = '';
+                if (javaRes.online) {
+                    javaRes.players.list?.forEach(player => {
+                        playerList.innerHTML += `
+                            <div class="player-card">
+                                <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
+                                <div class="player-info">
+                                    <div class="player-name">${player}</div>
+                                    <div class="player-platform">Java</div>
+                                </div>
+                            </div>`;
+                    });
                 }
-            } catch (error) {
-                console.error('Error fetching server data:', error);
+                if (bedrockRes.online) {
+                    bedrockRes.players.list?.forEach(player => {
+                        playerList.innerHTML += `
+                            <div class="player-card">
+                                <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
+                                <div class="player-info">
+                                    <div class="player-name">${player}</div>
+                                    <div class="player-platform">Bedrock</div>
+                                </div>
+                            </div>`;
+                    });
+                }
+            } catch (err) {
+                console.error('Error fetching server status:', err);
             }
+        }
+
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address).then(() => {
+                alert(`Address ${address} copied to clipboard!`);
+            });
         }
 
         fetchServerStatus();
