@@ -47,30 +47,69 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
-        h2 {
-            margin: 0 0 15px;
+        .staff-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .staff-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .staff-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #007aff, #005bb5);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .staff-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .staff-title {
+            font-size: 16px;
+            font-weight: bold;
             color: #333;
         }
 
-        /* Server Info */
-        .server-status {
-            margin-bottom: 15px;
-        }
-
-        .server-info {
-            margin-bottom: 10px;
-        }
-
-        .server-title {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .player-list {
-            margin-top: 10px;
+        .staff-description {
             font-size: 14px;
-            color: #555;
+            color: #666;
+        }
+
+        /* Status Card */
+        .status-card {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+            transition: background 0.3s ease;
+        }
+
+        .status-online {
+            background: #28a745;
+        }
+
+        .status-offline {
+            background: #dc3545;
         }
 
         /* Footer */
@@ -87,35 +126,48 @@
 <body>
     <div class="navbar">Knovon Minecraft Server</div>
     <div class="content">
-        <!-- Java Server Status -->
+        <!-- Image Background Card -->
+        <div class="image-card">
+            <h1>Knovon Minecraft Server</h1>
+        </div>
+
+        <!-- Server Status -->
         <div class="card">
-            <h2>Java Server</h2>
+            <h2>Java Server Status</h2>
             <div id="java-status" class="server-status">
-                <div id="java-info" class="server-info">Loading...</div>
+                <strong>Status:</strong> <span id="java-online-status">Loading...</span><br>
+                <strong>Players:</strong> <span id="java-player-count">0/0</span>
                 <ul id="java-players" class="player-list"></ul>
             </div>
         </div>
 
-        <!-- Bedrock Server Status -->
         <div class="card">
-            <h2>Bedrock Server</h2>
+            <h2>Bedrock Server Status</h2>
             <div id="bedrock-status" class="server-status">
-                <div id="bedrock-info" class="server-info">Loading...</div>
+                <strong>Status:</strong> <span id="bedrock-online-status">Loading...</span><br>
+                <strong>Players:</strong> <span id="bedrock-player-count">0/0</span>
                 <ul id="bedrock-players" class="player-list"></ul>
             </div>
+        </div>
+
+        <!-- Staff Panel Card -->
+        <div class="card">
+            <h2>Staff Panel</h2>
+            <a href="https://mod.mc.knovon.org" target="_blank" class="staff-card">
+                <div class="staff-card-icon">SP</div>
+                <div class="staff-info">
+                    <div class="staff-title">Access Staff Panel</div>
+                    <div class="staff-description">Manage server settings and moderate gameplay.</div>
+                </div>
+            </a>
         </div>
     </div>
     <div class="footer">Powered by Knovon</div>
 
     <script>
         async function fetchServerStatus() {
-            const javaApiUrl = 'https://api.mcsrvstat.us/2/mc.narova.org:25565'; // Java server API
-            const bedrockApiUrl = 'https://api.mcsrvstat.us/bedrock/2/mc.narova.org:19132'; // Bedrock server API
-
-            const javaInfo = document.getElementById('java-info');
-            const javaPlayers = document.getElementById('java-players');
-            const bedrockInfo = document.getElementById('bedrock-info');
-            const bedrockPlayers = document.getElementById('bedrock-players');
+            const javaApiUrl = 'https://api.mcsrvstat.us/2/mc.narova.org:25565';
+            const bedrockApiUrl = 'https://api.mcsrvstat.us/bedrock/2/mc.narova.org:19132';
 
             try {
                 const [javaResponse, bedrockResponse] = await Promise.all([
@@ -125,35 +177,27 @@
 
                 // Java Server
                 if (javaResponse.online) {
-                    javaInfo.innerHTML = `
-                        <strong>Status:</strong> Online<br>
-                        <strong>Players:</strong> ${javaResponse.players.online || 0}/${javaResponse.players.max || 0}
-                    `;
-                    javaPlayers.innerHTML = javaResponse.players.list
+                    document.getElementById('java-online-status').textContent = "Online";
+                    document.getElementById('java-player-count').textContent = `${javaResponse.players.online}/${javaResponse.players.max}`;
+                    document.getElementById('java-players').innerHTML = javaResponse.players.list
                         ? javaResponse.players.list.map(player => `<li>${player}</li>`).join('')
                         : '<li>No players online</li>';
                 } else {
-                    javaInfo.innerHTML = `<strong>Status:</strong> Offline`;
-                    javaPlayers.innerHTML = '';
+                    document.getElementById('java-online-status').textContent = "Offline";
                 }
 
                 // Bedrock Server
                 if (bedrockResponse.online) {
-                    bedrockInfo.innerHTML = `
-                        <strong>Status:</strong> Online<br>
-                        <strong>Players:</strong> ${bedrockResponse.players.online || 0}/${bedrockResponse.players.max || 0}
-                    `;
-                    bedrockPlayers.innerHTML = bedrockResponse.players.list
+                    document.getElementById('bedrock-online-status').textContent = "Online";
+                    document.getElementById('bedrock-player-count').textContent = `${bedrockResponse.players.online}/${bedrockResponse.players.max}`;
+                    document.getElementById('bedrock-players').innerHTML = bedrockResponse.players.list
                         ? bedrockResponse.players.list.map(player => `<li>${player}</li>`).join('')
                         : '<li>No players online</li>';
                 } else {
-                    bedrockInfo.innerHTML = `<strong>Status:</strong> Offline`;
-                    bedrockPlayers.innerHTML = '';
+                    document.getElementById('bedrock-online-status').textContent = "Offline";
                 }
             } catch (error) {
                 console.error('Error fetching server data:', error);
-                javaInfo.innerHTML = `<strong>Error fetching Java server data</strong>`;
-                bedrockInfo.innerHTML = `<strong>Error fetching Bedrock server data</strong>`;
             }
         }
 
