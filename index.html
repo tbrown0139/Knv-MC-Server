@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Knovon Minecraft Server</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -12,109 +12,73 @@
             margin: 0;
             padding: 0;
             background: #f4f4f4;
-            color: #333;
-        }
-
-        /* Header Styles */
-        header {
-            background: #007aff;
-            color: #fff;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-
-        header .logo {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            height: 100vh;
         }
 
-        header .logo img {
-            width: 50px;
-            margin-bottom: 5px;
-        }
-
-        header .logo div {
+        /* Navbar Styles */
+        .navbar {
+            background: #007aff;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
             font-size: 18px;
-        }
-
-        header .server-address {
-            text-align: right;
-            flex: 1;
-            padding: 10px;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        header .server-address span {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        header .server-address button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 10px;
-            background: #fff;
-            color: #007aff;
-            cursor: pointer;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        header .status {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        header .status .flare {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-
-        header .status .online {
-            background: green;
-        }
-
-        header .status .offline {
-            background: red;
-        }
-
-        /* Card Layout */
-        .section {
-            padding: 20px;
-            background: #fff;
-            margin: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .card {
-            background: #f5f5f7;
-            border-radius: 12px;
-            padding: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            z-index: 1000;
+        }
+
+        /* Content Wrapper */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 60px;
+            padding: 15px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .card h2 {
             font-size: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Server Address */
+        .server-address {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .server-address span {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .server-address button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 10px;
+            background: #007aff;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
         }
 
         /* Player List */
         .players-list {
-            margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -124,7 +88,7 @@
             display: flex;
             align-items: center;
             padding: 10px;
-            background: #fff;
+            background: #f5f5f7;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -134,89 +98,76 @@
             height: 40px;
             background: linear-gradient(to bottom, #e0e0e0, #f5f5f5);
             border-radius: 50%;
-            color: #fff;
+            color: #666;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
             margin-right: 10px;
+            font-size: 16px;
         }
 
         .player-card .player-name {
             font-size: 16px;
+            font-weight: 500;
         }
 
-        footer {
+        /* Footer */
+        .footer {
+            background: #f4f4f4;
+            padding: 10px;
             text-align: center;
-            padding: 20px;
-            background: #007aff;
-            color: #fff;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
         }
 
-        /* Mobile Responsiveness */
+        /* Responsiveness */
         @media screen and (max-width: 600px) {
-            header {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .server-address {
-                width: 100%;
-                margin-top: 15px;
-            }
-
             .card {
                 padding: 15px;
+            }
+
+            .server-address button {
+                padding: 8px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="https://asset.knovon.net/Knovon_white.png" alt="Knovon Logo">
-            <div>Minecraft Server</div>
-        </div>
-        <div class="server-address">
-            <span>Java: <code id="java-address">mc.narova.org:25565</code></span>
-            <button onclick="copyAddress('java-address')">Copy Java</button>
-            <span>Bedrock: <code id="bedrock-address">mc.narova.org:19132</code></span>
-            <button onclick="copyAddress('bedrock-address')">Copy Bedrock</button>
-            <div class="status">
-                <div id="server-flare" class="flare offline"></div>
-                <span id="server-status">Offline</span>
+    <div class="navbar">Knovon Minecraft Server</div>
+    <div class="content">
+        <!-- Server Status Card -->
+        <div class="card">
+            <h2>Server Details</h2>
+            <div class="server-address">
+                <span>Java: <code id="java-address">mc.narova.org:25565</code> 
+                    <button onclick="copyAddress('java-address')">Copy</button>
+                </span>
+                <span>Bedrock: <code id="bedrock-address">mc.narova.org:19132</code> 
+                    <button onclick="copyAddress('bedrock-address')">Copy</button>
+                </span>
             </div>
         </div>
-    </header>
 
-    <section class="section">
+        <!-- Server Status -->
         <div class="card">
             <h2>Server Status</h2>
-            <p id="player-count">Loading player count...</p>
+            <p id="player-count">Checking status...</p>
             <div id="online-players" class="players-list"></div>
         </div>
-    </section>
-
-    <footer>
-        Powered by Knovon
-    </footer>
+    </div>
+    <div class="footer">Powered by Knovon</div>
 
     <script>
         async function fetchServerStatus() {
             const response = await fetch('https://api.mcsrvstat.us/2/mc.narova.org:25565'); // Replace with your API URL
             const data = await response.json();
-            const serverFlare = document.getElementById('server-flare');
-            const serverStatus = document.getElementById('server-status');
             const playerCount = document.getElementById('player-count');
             const playersList = document.getElementById('online-players');
 
             if (data.online) {
-                serverFlare.classList.remove('offline');
-                serverFlare.classList.add('online');
-                serverStatus.textContent = 'Online';
-                playerCount.textContent = `Players Online: ${data.players.online} / ${data.players.max}`;
+                playerCount.textContent = `Online: ${data.players.online} / ${data.players.max}`;
                 playersList.innerHTML = data.players.list
                     ? data.players.list.map(player => `
                         <div class="player-card">
@@ -226,9 +177,6 @@
                     `).join('')
                     : '<p>No players online.</p>';
             } else {
-                serverFlare.classList.remove('online');
-                serverFlare.classList.add('offline');
-                serverStatus.textContent = 'Offline';
                 playerCount.textContent = 'Server is currently offline.';
                 playersList.innerHTML = '';
             }
@@ -237,12 +185,11 @@
         function copyAddress(id) {
             const address = document.getElementById(id).textContent;
             navigator.clipboard.writeText(address).then(() => {
-                alert('Address copied to clipboard!');
+                alert('Address copied!');
             });
         }
 
-        // Check server status every 30 seconds
-        setInterval(fetchServerStatus, 30000);
+        // Fetch server status on load
         fetchServerStatus();
     </script>
 </body>
