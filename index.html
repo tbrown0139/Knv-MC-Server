@@ -17,7 +17,7 @@
             height: 100vh;
         }
 
-        /* Navbar Styles */
+        /* Navbar */
         .navbar {
             background: #007aff;
             color: white;
@@ -31,12 +31,43 @@
             z-index: 1000;
         }
 
-        /* Content Wrapper */
+        /* Content */
         .content {
             flex: 1;
             overflow-y: auto;
             margin-top: 60px;
             padding: 15px;
+        }
+
+        /* Image Background Card */
+        .image-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            height: 200px;
+            background-image: url('https://source.unsplash.com/800x600/?minecraft');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .image-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
+        }
+
+        .image-card h1 {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            z-index: 1;
         }
 
         /* Card Styles */
@@ -54,27 +85,23 @@
             color: #333;
         }
 
-        /* Server Address */
-        .server-address {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .server-address span {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .server-address button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 10px;
-            background: #007aff;
+        /* Status Card */
+        .status-card {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
             color: white;
-            font-size: 14px;
-            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 15px;
+            transition: background 0.3s ease;
+        }
+
+        .status-online {
+            background: #28a745;
+        }
+
+        .status-offline {
+            background: #dc3545;
         }
 
         /* Player List */
@@ -122,14 +149,10 @@
             border-top: 1px solid #ddd;
         }
 
-        /* Responsiveness */
+        /* Responsive */
         @media screen and (max-width: 600px) {
             .card {
                 padding: 15px;
-            }
-
-            .server-address button {
-                padding: 8px;
             }
         }
     </style>
@@ -137,7 +160,17 @@
 <body>
     <div class="navbar">Knovon Minecraft Server</div>
     <div class="content">
-        <!-- Server Status Card -->
+        <!-- Image Background Card -->
+        <div class="image-card">
+            <h1>Knovon Minecraft Server</h1>
+        </div>
+
+        <!-- Status Card -->
+        <div id="status-card" class="status-card status-offline">
+            Server is Offline
+        </div>
+
+        <!-- Server Details -->
         <div class="card">
             <h2>Server Details</h2>
             <div class="server-address">
@@ -163,10 +196,15 @@
         async function fetchServerStatus() {
             const response = await fetch('https://api.mcsrvstat.us/2/mc.narova.org:25565'); // Replace with your API URL
             const data = await response.json();
+            const statusCard = document.getElementById('status-card');
             const playerCount = document.getElementById('player-count');
             const playersList = document.getElementById('online-players');
 
             if (data.online) {
+                statusCard.classList.remove('status-offline');
+                statusCard.classList.add('status-online');
+                statusCard.textContent = "Server is Online";
+
                 playerCount.textContent = `Online: ${data.players.online} / ${data.players.max}`;
                 playersList.innerHTML = data.players.list
                     ? data.players.list.map(player => `
@@ -177,6 +215,10 @@
                     `).join('')
                     : '<p>No players online.</p>';
             } else {
+                statusCard.classList.remove('status-online');
+                statusCard.classList.add('status-offline');
+                statusCard.textContent = "Server is Offline";
+
                 playerCount.textContent = 'Server is currently offline.';
                 playersList.innerHTML = '';
             }
