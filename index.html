@@ -152,7 +152,7 @@
             color: #333;
         }
 
-        .server-address, .player-address {
+        .server-address, .player-platform {
             font-size: 14px;
             color: #666;
         }
@@ -190,27 +190,6 @@
             </div>
         </div>
 
-        <!-- Server Address Cards -->
-        <div class="card">
-            <h2>Server Addresses</h2>
-            <div class="server-address">
-                <div class="server-card" onclick="copyAddress('mc.narova.org:25565')">
-                    <div class="server-icon">JA</div>
-                    <div class="server-info">
-                        <div class="server-type">Java</div>
-                        <div class="server-address">mc.narova.org:25565</div>
-                    </div>
-                </div>
-                <div class="server-card" onclick="copyAddress('mc.narova.org:19132')">
-                    <div class="server-icon">BR</div>
-                    <div class="server-info">
-                        <div class="server-type">Bedrock</div>
-                        <div class="server-address">mc.narova.org:19132</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Online Players -->
         <div class="card">
             <h2>Online Players</h2>
@@ -223,47 +202,87 @@
 
     <script>
         async function fetchServerStatus() {
-            const response = await fetch('https://api.mcsrvstat.us/2/mc.narova.org:25565'); // Replace with your API URL
-            const data = await response.json();
+            const javaApiUrl = 'https://api.mcsrvstat.us/2/mc.narova.org:25565'; // Java API endpoint
+            const bedrockApiUrl = 'https://api.mcsrvstat.us/bedrock/2/mc.narova.org:19132'; // Bedrock API endpoint
+
             const statusCard = document.getElementById('status-card');
             const playersList = document.getElementById('online-players');
             const worldTime = document.getElementById('world-time');
             const worldWeather = document.getElementById('world-weather');
 
-            if (data.online) {
-                statusCard.classList.remove('status-offline');
-                statusCard.classList.add('status-online');
-                statusCard.textContent = `${data.players.online}/${data.players.max} Players Online`;
+            try {
+                // Fetch data from both APIs
+                const [javaResponse, bedrockResponse] = await Promise.all([
+                    fetch(javaApiUrl).then(res => res.json()),
+                    fetch(bedrockApiUrl).then(res => res.json())
+                ]);
 
-                playersList.innerHTML = data.players.list
-                    ? data.players.list.map(player => `
-                        <div class="player-card">
-                            <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
-                            <div class="player-info">
-                                <div class="player-name">${player}</div>
-                            </div>
-                        </div>
-                    `).join('')
-                    : '<p>No players online.</p>';
+                let totalOnline = 0;
+                let maxPlayers = 0;
+                playersList.innerHTML = ''; // Clear previous player cards
 
-                // World stats (replace placeholders with real API data if available)
-                worldTime.textContent = data.debug ? data.debug.time : 'Unknown';
-                worldWeather.textContent = data.debug ? data.debug.weather : 'Unknown';
-            } else {
+                // Java Players
+                if (javaResponse.online) {
+                    totalOnline += javaResponse.players.online || 0;
+                    maxPlayers += javaResponse.players.max || 0;
+
+                    if (javaResponse.players.list) {
+                        javaResponse.players.list.forEach(player => {
+                            playersList.innerHTML += `
+                                <div class="player-card">
+                                    <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
+                                    <div class="player-info">
+                                        <div class="player-name">${player}</div>
+                                        <div class="player-platform">Java</div>
+                                    </div>
+                                </div>`;
+                        });
+                    }
+                }
+
+                // Bedrock Players
+                if (bedrockResponse.online) {
+                    totalOnline += bedrockResponse.players.online || 0;
+                    maxPlayers += bedrockResponse.players.max || 0;
+
+                    if (bedrockResponse.players.list) {
+                        bedrockResponse.players.list.forEach(player => {
+                            playersList.innerHTML += `
+                                <div class="player-card">
+                                    <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
+                                    <div class="player-info">
+                                        <div class="player-name">${player}</div>
+                                        <div class="player-platform">Bedrock</div>
+                                    </div>
+                                </div>`;
+                        });
+                    }
+                }
+
+                // Update status card
+                if (totalOnline > 0) {
+                    statusCard.classList.remove('status-offline');
+                    statusCard.classList.add('status-online');
+                    statusCard.textContent = `${totalOnline}/${maxPlayers} Players Online`;
+                } else {
+                    statusCard.classList.remove('status-online');
+                    statusCard.classList.add('status-offline');
+                    statusCard.textContent = "Server is Offline";
+                }
+
+                // Update world stats (placeholder values for now)
+                worldTime.textContent = javaResponse.debug?.time || bedrockResponse.debug?.time || 'Unknown';
+                worldWeather.textContent = javaResponse.debug?.weather || bedrockResponse.debug?.weather || 'Unknown';
+
+            } catch (error) {
+                console.error('Error fetching server data:', error);
                 statusCard.classList.remove('status-online');
                 statusCard.classList.add('status-offline');
                 statusCard.textContent = "Server is Offline";
-
-                playersList.innerHTML = '<p>Server is offline.</p>';
+                playersList.innerHTML = '<p>Unable to fetch player data.</p>';
                 worldTime.textContent = 'N/A';
                 worldWeather.textContent = 'N/A';
             }
-        }
-
-        function copyAddress(address) {
-            navigator.clipboard.writeText(address).then(() => {
-                alert(`Address ${address} copied to clipboard!`);
-            });
         }
 
         // Fetch server status on load
