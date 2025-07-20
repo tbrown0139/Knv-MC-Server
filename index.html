@@ -2,316 +2,298 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Knovon Minecraft Server</title>
-    <style>
-        /* Base Styles */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header Card */
-        .header-card {
-            position: relative;
-            height: 200px;
-            background-image: url('https://static.planetminecraft.com/files/resource_media/screenshot/1248/minecraft_4289159.jpg');
-            background-size: cover;
-            background-position: center;
-            border-radius: 15px;
-            margin: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
-        }
-
-        .header-text {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        /* Status Banner */
-        .status-banner {
-            background: #fff;
-            color: #333;
-            padding: 15px;
-            margin: 0 15px 15px;
-            border-radius: 15px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .status-online {
-            background: #28a745;
-            color: white;
-        }
-
-        .status-offline {
-            background: #dc3545;
-            color: white;
-        }
-
-        /* Server Section */
-        .server-section {
-            margin: 15px;
-        }
-
-        .server-card {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .server-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .server-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #ff6f61, #ff3e3e);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-
-        .server-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Player Section */
-        .player-card {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .player-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .player-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #007aff, #005bb5);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-
-        .player-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .player-name {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .player-platform {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Staff Card */
-        .staff-card {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .staff-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .staff-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #ffcc00, #ff9900);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-
-        .staff-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .staff-title {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .staff-description {
-            font-size: 14px;
-            color: #666;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knovon MC Server - Join the Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="header-card">
-        <div class="header-text">Welcome to the Knovon MC Server</div>
-    </div>
-
-    <div id="status-banner" class="status-banner">Checking server status...</div>
-
-    <!-- Server Section -->
-    <div class="server-section">
-        <div class="server-card" onclick="copyAddress('mc.narova.org:25565')">
-            <div class="server-icon">JA</div>
-            <div class="server-info">
-                <div>Java Server</div>
-                <div>mc.narova.org:25565</div>
+    <!-- Floating Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="Logo-top.png" alt="Knovon Logo" class="logo-img">
+                <span class="logo-text">Minecraft Server</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#intro" class="nav-link">About</a></li>
+                <li><a href="#players" class="nav-link">Players</a></li>
+                <li><a href="#join" class="nav-link">Join</a></li>
+                <li><a href="#staff" class="nav-link">Staff</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
         </div>
-        <div class="server-card" onclick="copyAddress('mc.narova.org:19132')">
-            <div class="server-icon">BR</div>
-            <div class="server-info">
-                <div>Bedrock Server</div>
-                <div>mc.narova.org:19132</div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <img src="headerbg.jpg" alt="Minecraft Background" class="hero-image">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to Our Minecraft Server</h1>
+            <p class="hero-subtitle">Join thousands of players in an epic adventure</p>
+            <button class="cta-button" onclick="scrollToJoin()">
+                <i class="fas fa-play"></i>
+                Connect Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section id="intro" class="intro">
+        <div class="container">
+            <div class="section-header">
+                <h2>Discover a World of Possibilities</h2>
+                <p>Experience Minecraft like never before</p>
+            </div>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <h3>Endless Adventures Await</h3>
+                    <p>Step into a world where creativity knows no bounds. Our Minecraft server offers a unique blend of survival, creativity, and community that will keep you coming back for more.</p>
+                    <p>From building magnificent structures to exploring vast landscapes, every day brings new challenges and opportunities to connect with fellow players.</p>
+                </div>
+                <div class="intro-features">
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Active Community</h4>
+                        <p>Join thousands of players worldwide</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Safe Environment</h4>
+                        <p>Moderated and secure gameplay</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-rocket"></i>
+                        <h4>Regular Updates</h4>
+                        <p>Fresh content and features</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Players Section -->
+    <section id="players" class="players">
+        <div class="container">
+            <div class="section-header">
+                <h2>Online Players</h2>
+                <p>Join the community</p>
+            </div>
+            <div class="players-header">
+                <div class="player-count-container">
+                    <span class="player-count-label">Players Online:</span>
+                    <span class="player-count">0/100</span>
+                </div>
+                <button class="refresh-btn" onclick="populatePlayersTable()" title="Refresh player list">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            <div class="players-table-container">
+                <div class="players-loading" style="display: none;">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading players...</p>
+                    </div>
+                </div>
+                <table class="players-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Status</th>
+                            <th>Playtime</th>
+                        </tr>
+                    </thead>
+                    <tbody id="players-list">
+                        <!-- Players will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Section -->
+    <section id="join" class="join">
+        <div class="container">
+            <div class="section-header">
+                <h2>Join Our Server</h2>
+                <p>Choose your platform and start playing</p>
+            </div>
+            <div class="join-options">
+                <div class="join-card java">
+                    <div class="join-card-header">
+                        <i class="fab fa-java"></i>
+                        <h3>Java Edition</h3>
+                    </div>
+                    <div class="server-info">
+                        <div class="server-address">
+                            <span class="address-label">Server Address:</span>
+                            <div class="address-container">
+                                <span class="address-text">mc.narova.org:25565</span>
+                                <button class="copy-btn" onclick="copyToClipboard('mc.narova.org:25565')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="join-btn java-btn" onclick="joinJava()">
+                        <i class="fas fa-play"></i>
+                        Join Java Server
+                    </button>
+                </div>
+                <div class="join-card bedrock">
+                    <div class="join-card-header">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Bedrock Edition</h3>
+                    </div>
+                    <div class="server-info">
+                        <div class="server-address">
+                            <span class="address-label">Server Address:</span>
+                            <div class="address-container">
+                                <span class="address-text">mc.narova.org:19132</span>
+                                <button class="copy-btn" onclick="copyToClipboard('mc.narova.org:19132')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="join-btn bedrock-btn" onclick="joinBedrock()">
+                        <i class="fas fa-play"></i>
+                        Join Bedrock Server
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Staff Section -->
+    <section id="staff" class="staff">
+        <div class="container">
+            <div class="section-header">
+                <h2>Staff Portal & Volunteering</h2>
+                <p>Join our team and make a difference</p>
+            </div>
+            <div class="staff-cards">
+                <div class="staff-card">
+                    <div class="staff-card-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Staff Portal</h3>
+                    <p>Access the staff portal to manage the server and help our community.</p>
+                    <a href="https://staffing-mc.knovon.org" class="staff-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        Visit Portal
+                    </a>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-card-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>Become a Volunteer</h3>
+                    <p>Join our team of volunteers and help create an amazing experience for everyone.</p>
+                    <a href="https://forms.gle/hxRSL6g6xk2mm8Jm7" class="staff-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        Apply Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="Knovon_White.png" alt="Knovon Logo" class="footer-logo-img">
+                    <span class="footer-logo-text">Knovon</span>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-link-group">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a></li>
+                            <li><a href="#" onclick="showTermsOfService()">Terms of Service</a></li>
+                            <li><a href="https://staffing-mc.knovon.org" target="_blank">Staff Portal</a></li>
+                            <li><a href="https://legal.knovon.net" target="_blank">Legal</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-status">
+                <div class="server-status-indicator">
+                    <span class="status-label">Server Status:</span>
+                    <div class="status-badge" id="server-status-badge">
+                        <i class="fas fa-circle"></i>
+                        <span class="status-text">Checking...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Knovon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Bedrock Info -->
+    <div id="bedrock-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Join on Mobile</h3>
+            <p>To join our Bedrock server on mobile:</p>
+            <ol>
+                <li>Open Minecraft Bedrock Edition</li>
+                <li>Go to Play → Servers</li>
+                <li>Add the server address: <strong>mc.narova.org:19132</strong></li>
+                <li>Tap "Play" to join</li>
+            </ol>
+            <button class="modal-btn" onclick="closeModal()">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Server Offline Modal -->
+    <div id="server-offline-modal" class="modal">
+        <div class="modal-content offline-modal">
+            <span class="close" onclick="closeOfflineModal()">&times;</span>
+            <div class="offline-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Server Currently Offline</h3>
+            <p>We're sorry, but the Minecraft server is currently offline for maintenance or updates.</p>
+            <div class="offline-info">
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Check back soon for updates</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-discord"></i>
+                    <span>Join our Discord for status updates</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-twitter"></i>
+                    <span>Follow us on Twitter for announcements</span>
+                </div>
+            </div>
+            <div class="offline-actions">
+                <button class="modal-btn secondary" onclick="closeOfflineModal()">Close</button>
+                <button class="modal-btn" onclick="refreshServerStatus()">
+                    <i class="fas fa-sync-alt"></i>
+                    Check Again
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Player Section -->
-    <div class="server-section">
-        <h2>Online Players</h2>
-        <div id="player-list">
-            <div>No players online.</div>
-        </div>
-    </div>
-
-    <!-- Staff Portal -->
-    <div class="staff-card" onclick="window.open('https://mc-mod.knovon.org/', '_blank')">
-        <div class="staff-icon">SP</div>
-        <div class="staff-info">
-            <div class="staff-title">Server Staff Portal</div>
-            <div class="staff-description">Access tools for server management.</div>
-        </div>
-    </div>
-    <div class="staff-card" onclick="window.open('https://forms.gle/hxRSL6g6xk2mm8Jm7', '_blank')">
-        <div class="staff-icon">AP</div>
-        <div class="staff-info">
-            <div class="staff-title">Volunteer</div>
-            <div class="staff-description">Apply to Volunteer </div>
-        </div>
-    </div>
-
-    <script>
-        async function fetchServerStatus() {
-            const javaApi = 'https://api.mcsrvstat.us/2/mc.narova.org:25565';
-            const bedrockApi = 'https://api.mcsrvstat.us/bedrock/2/mc.narova.org:19132';
-
-            try {
-                const [javaRes, bedrockRes] = await Promise.all([
-                    fetch(javaApi).then(res => res.json()),
-                    fetch(bedrockApi).then(res => res.json())
-                ]);
-
-                // Update status
-                const isOnline = javaRes.online || bedrockRes.online;
-                document.getElementById('status-banner').className = `status-banner ${isOnline ? 'status-online' : 'status-offline'}`;
-                document.getElementById('status-banner').innerText = isOnline
-                    ? `Online - ${javaRes.players.online + bedrockRes.players.online} Players`
-                    : 'Offline';
-
-                // Update player list
-                const playerList = document.getElementById('player-list');
-                playerList.innerHTML = '';
-                if (javaRes.online) {
-                    javaRes.players.list?.forEach(player => {
-                        playerList.innerHTML += `
-                            <div class="player-card">
-                                <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
-                                <div class="player-info">
-                                    <div class="player-name">${player}</div>
-                                    <div class="player-platform">Java</div>
-                                </div>
-                            </div>`;
-                    });
-                }
-                if (bedrockRes.online) {
-                    bedrockRes.players.list?.forEach(player => {
-                        playerList.innerHTML += `
-                            <div class="player-card">
-                                <div class="player-icon">${player.substring(0, 2).toUpperCase()}</div>
-                                <div class="player-info">
-                                    <div class="player-name">${player}</div>
-                                    <div class="player-platform">Bedrock</div>
-                                </div>
-                            </div>`;
-                    });
-                }
-            } catch (err) {
-                console.error('Error fetching server status:', err);
-            }
-        }
-
-        function copyAddress(address) {
-            navigator.clipboard.writeText(address).then(() => {
-                alert(`Address ${address} copied to clipboard!`);
-            });
-        }
-
-        fetchServerStatus();
-    </script>
+    <script src="script.js"></script>
 </body>
-</html>
+</html> 
