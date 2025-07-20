@@ -151,7 +151,7 @@ To contribute to this project:
 
 ## 📞 Support
 
-For support or questions about this landing page, please contact the development team.
+For support or questions about this landing page, please email mcteam@knovon.org
 
 ---
 
