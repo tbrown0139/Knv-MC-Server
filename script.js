@@ -132,6 +132,9 @@ function updateServerStatusIndicator(status, message = '') {
 
 // Show offline modal
 function showOfflineModal() {
+    // Temporarily disabled during development
+    return;
+    
     if (serverStatus.offlineModalShown) return;
     
     const modal = document.getElementById('server-offline-modal');
@@ -484,17 +487,56 @@ function scrollToJoin() {
     });
 }
 
-// Navbar background change on scroll
-window.addEventListener('scroll', () => {
+// Enhanced navbar background change on scroll with liquid glass effect
+let lastScrollY = window.scrollY;
+let ticking = false;
+
+function updateNavbar() {
     const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.15)';
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 100) {
+        // Scrolled down - enhance the liquid glass effect
+        navbar.style.background = 'rgba(255, 255, 255, 0.4)';
+        navbar.style.backdropFilter = 'blur(35px) saturate(200%)';
+        navbar.style.webkitBackdropFilter = 'blur(35px) saturate(200%)';
+        navbar.style.boxShadow = `
+            0 12px 40px rgba(0, 0, 0, 0.12),
+            0 1px 0 rgba(255, 255, 255, 0.9) inset,
+            0 -1px 0 rgba(255, 255, 255, 0.5) inset
+        `;
+        navbar.style.transform = 'translateX(-50%) translateY(0)';
+        navbar.style.border = '1px solid rgba(255, 255, 255, 0.4)';
     } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+        // At top - lighter liquid glass effect
+        navbar.style.background = 'rgba(255, 255, 255, 0.25)';
+        navbar.style.backdropFilter = 'blur(30px) saturate(180%)';
+        navbar.style.webkitBackdropFilter = 'blur(30px) saturate(180%)';
+        navbar.style.boxShadow = `
+            0 8px 32px rgba(0, 0, 0, 0.08),
+            0 1px 0 rgba(255, 255, 255, 0.8) inset,
+            0 -1px 0 rgba(255, 255, 255, 0.4) inset
+        `;
+        navbar.style.transform = 'translateX(-50%) translateY(0)';
+        navbar.style.border = '1px solid rgba(255, 255, 255, 0.3)';
     }
-});
+    
+    // Add subtle parallax effect
+    if (scrollY > 50) {
+        navbar.style.transform = `translateX(-50%) translateY(${Math.min(scrollY * 0.1, 10)}px)`;
+    }
+    
+    ticking = false;
+}
+
+function requestTick() {
+    if (!ticking) {
+        requestAnimationFrame(updateNavbar);
+        ticking = true;
+    }
+}
+
+window.addEventListener('scroll', requestTick);
 
 // Placeholder functions for privacy policy and terms of service
 function showPrivacyPolicy() {
@@ -537,6 +579,17 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
+    });
+    
+    // Add liquid glass hover effects to nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            link.style.transform = 'translateY(-1px) scale(1.02)';
+        });
+        
+        link.addEventListener('mouseleave', () => {
+            link.style.transform = 'translateY(0) scale(1)';
+        });
     });
 });
 
