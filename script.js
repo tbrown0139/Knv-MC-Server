@@ -2,16 +2,25 @@
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
+// Optimize mobile menu toggle with passive listeners
 hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     navMenu.classList.toggle('active');
-});
+}, { passive: true });
 
 // Close mobile menu when clicking on a link
 document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
     hamburger.classList.remove('active');
     navMenu.classList.remove('active');
-}));
+}, { passive: true }));
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+}, { passive: true });
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -19,9 +28,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+            // Use requestAnimationFrame for better mobile performance
+            requestAnimationFrame(() => {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             });
         }
     });
@@ -549,14 +561,22 @@ function showTermsOfService() {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
+    // Optimize for mobile devices
+    const isMobile = window.innerWidth <= 768;
+    
     // Initialize server status
     updateServerStatusIndicator('checking');
     
     // Initialize player list
     populatePlayersTable();
     
-    // Start auto-refresh
-    startPlayerListRefresh();
+    // Start auto-refresh (less frequent on mobile for better performance)
+    if (!isMobile) {
+        startPlayerListRefresh();
+    } else {
+        // Mobile: refresh every 30 seconds instead of 15
+        setInterval(populatePlayersTable, 30000);
+    }
     
     // Add intersection observer for animations
     const observerOptions = {
@@ -581,47 +601,65 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
     
-    // Add liquid glass hover effects to nav links
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            link.style.transform = 'translateY(-1px) scale(1.02)';
+    // Add liquid glass hover effects to nav links (desktop only)
+    if (!isMobile) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.style.transform = 'translateY(-1px) scale(1.02)';
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                link.style.transform = 'translateY(0) scale(1)';
+            });
         });
-        
-        link.addEventListener('mouseleave', () => {
-            link.style.transform = 'translateY(0) scale(1)';
-        });
-    });
+    }
 });
 
-// Add some interactive hover effects
+// Add some interactive hover effects (desktop only)
 document.addEventListener('DOMContentLoaded', () => {
-    // Add hover effect to player rows
-    const playerRows = document.querySelectorAll('.players-table tbody tr');
-    playerRows.forEach(row => {
-        row.addEventListener('mouseenter', () => {
-            row.style.backgroundColor = '#f8f9fa';
-            row.style.transform = 'scale(1.01)';
-        });
-        
-        row.addEventListener('mouseleave', () => {
-            row.style.backgroundColor = '';
-            row.style.transform = '';
-        });
-    });
+    const isMobile = window.innerWidth <= 768;
     
-    // Add click effect to buttons
-    const buttons = document.querySelectorAll('button');
-    buttons.forEach(button => {
-        button.addEventListener('mousedown', () => {
-            button.style.transform = 'scale(0.95)';
+    if (!isMobile) {
+        // Add hover effect to player rows
+        const playerRows = document.querySelectorAll('.players-table tbody tr');
+        playerRows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.backgroundColor = '#f8f9fa';
+                row.style.transform = 'scale(1.01)';
+            });
+            
+            row.addEventListener('mouseleave', () => {
+                row.style.backgroundColor = '';
+                row.style.transform = '';
+            });
         });
         
-        button.addEventListener('mouseup', () => {
-            button.style.transform = '';
+        // Add click effect to buttons
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.95)';
+            });
+            
+            button.addEventListener('mouseup', () => {
+                button.style.transform = '';
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = '';
+            });
         });
-        
-        button.addEventListener('mouseleave', () => {
-            button.style.transform = '';
+    } else {
+        // Mobile: Add touch feedback for buttons
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            button.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            }, { passive: true });
         });
-    });
+    }
 }); 
